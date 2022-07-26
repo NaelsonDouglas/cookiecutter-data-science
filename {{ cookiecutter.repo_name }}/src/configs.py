@@ -6,7 +6,7 @@ from ast import literal_eval
 
 class _Configs():
     """
-    * Container object which searchs for configurations in both the environement and the .ini config file.
+    * Singleton Container object/class which searches for configurations in both the environement and the .ini config file.
     * Using configs.FOO_BAR the code will search for the FOO_BAR on the environment, if it is not found, then it will search on the .ini file for a fallback value. The value must be saved as:
     [foo]
     bar=value
@@ -15,8 +15,9 @@ class _Configs():
     [log]
     level='value'
 
-    The .ini file is selected according to either the DEV envirment variable or the environment or on the sys.argv
-    example: if you start your main code with 'python code.py dev', the config manager will use the defaul values on the dev.ini. The same will happen if you set a DEV=True environment variable. This last one scenario is usefull for debugging Docker applications. If neither one of these options are set, then the default fallback will be read from production.ini.
+    The .ini file is selected according to if the DEV environment variable is set to True or if there is a DEV argument passed via sys.argv.
+    example: if you start your main code with 'python code.py dev', the config manager will use the default values on the dev.ini. The same will happen if you set a DEV=True environment variable. This last one scenario is usefull for debugging Docker applications.
+    If neither one of these options are set, then the default fallback will be read from production.ini.
     """
     def __new__(cls):
         if not hasattr(cls, 'instance'):
